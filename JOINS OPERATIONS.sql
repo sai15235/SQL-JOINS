@@ -1,101 +1,78 @@
-#  SQL Joins Operations
+CREATE DATABASE avn;
 
-A beginner-friendly SQL practice project demonstrating different types of **JOIN operations** using a fictional *Parks and Recreation* employee dataset.
+USE avn;
 
----
+-- Create the employee table
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    occupation VARCHAR(100),
+    salary INT,
+    dept_id INT
+);
 
-##  Files
+-- Insert values into employees
+INSERT INTO employees (employee_id, first_name, last_name, occupation, salary, dept_id) VALUES
+(1, 'Leslie', 'Knope', 'Deputy Director of Parks and Recreation', 75000, 1),
+(2, 'Ron', 'Swanson', 'Director of Parks and Recreation', 70000, 1),
+(3, 'Tom', 'Haverford', 'Entrepreneur', 50000, 1),
+(4, 'April', 'Ludgate', 'Assistant to the Director of Parks and Recreation', 25000, 1),
+(5, 'Jerry', 'Gergich', 'Office Manager', 50000, 1),
+(6, 'Donna', 'Meagle', 'Office Manager', 60000, 1),
+(7, 'Ann', 'Perkins', 'Nurse', 55000, 4),
+(8, 'Chris', 'Traeger', 'City Manager', 90000, 3),
+(9, 'Ben', 'Wyatt', 'State Auditor', 70000, 6),
+(10, 'Andy', 'Dwyer', 'Shoe Shiner and Musician', 20000, 3),
+(11, 'Mark', 'Brendanawicz', 'City Planner', 57000, 3),
+(12, 'Craig', 'Middlebrooks', 'Parks Director', 65000, 1);
 
-| File | Description |
-|------|-------------|
-| `JOINS_OPERATIONS.sql` | Main SQL file with table creation, data insertion, and join queries |
+SELECT * FROM employees;
 
----
+-- Create employee_details table
+CREATE TABLE employee_details (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    age INT,
+    gender VARCHAR(10),
+    birth_date DATE
+);
 
-##  Database Structure
+-- Insert values into employee_details
+INSERT INTO employee_details (employee_id, first_name, last_name, age, gender, birth_date) VALUES
+(1, 'Leslie', 'Knope', 44, 'Female', '1979-09-25'),
+(3, 'Tom', 'Haverford', 36, 'Male', '1987-03-04'),
+(4, 'April', 'Ludgate', 29, 'Female', '1994-03-27'),
+(5, 'Jerry', 'Gergich', 61, 'Male', '1962-08-28'),
+(6, 'Donna', 'Meagle', 46, 'Female', '1977-07-30'),
+(7, 'Ann', 'Perkins', 35, 'Female', '1988-12-01'),
+(8, 'Chris', 'Traeger', 43, 'Male', '1980-11-11'),
+(9, 'Ben', 'Wyatt', 38, 'Male', '1985-07-26'),
+(10, 'Andy', 'Dwyer', 34, 'Male', '1989-03-25'),
+(11, 'Mark', 'Brendanawicz', 40, 'Male', '1983-06-14'),
+(12, 'Craig', 'Middlebrooks', 37, 'Male', '1986-07-27');
 
-### `employees`
-| Column | Type | Description |
-|--------|------|-------------|
-| employee_id | INT (PK) | Unique employee identifier |
-| first_name | VARCHAR | First name |
-| last_name | VARCHAR | Last name |
-| occupation | VARCHAR | Job title |
-| salary | INT | Annual salary |
-| dept_id | INT | Department ID |
+SELECT * FROM employee_details;
 
-### `employee_details`
-| Column | Type | Description |
-|--------|------|-------------|
-| employee_id | INT (PK) | Unique employee identifier |
-| first_name | VARCHAR | First name |
-| last_name | VARCHAR | Last name |
-| age | INT | Age |
-| gender | VARCHAR | Gender |
-| birth_date | DATE | Date of birth |
-
----
-
-## 🔗 JOIN Types Covered
-
-### INNER JOIN
-Returns only the rows that have **matching values in both tables**.
-```sql
+-- INNER JOIN — only matching rows from both tables
 SELECT emp.employee_id, age, occupation
 FROM employees AS emp
 INNER JOIN employee_details AS emp_det
   ON emp.employee_id = emp_det.employee_id;
-```
 
-### LEFT JOIN
-Returns **all rows from the left table**, and matched rows from the right table. Unmatched rows return NULL.
-```sql
+-- LEFT JOIN — all rows from employees, matched rows from employee_details
 SELECT * FROM employees AS emp
 LEFT JOIN employee_details AS emp_det
   ON emp.employee_id = emp_det.employee_id;
-```
 
-### RIGHT JOIN
-Returns **all rows from the right table**, and matched rows from the left table. Unmatched rows return NULL.
-```sql
+-- RIGHT JOIN — all rows from employee_details, matched rows from employees
 SELECT * FROM employees AS emp
 RIGHT JOIN employee_details AS emp_det
   ON emp.employee_id = emp_det.employee_id;
-```
 
-### SELF JOIN
-Joins a **table with itself**, useful for comparing rows within the same table.
-```sql
-SELECT * FROM employees emp1
+-- SELF JOIN — joining the table with itself
+SELECT *
+FROM employees emp1
 JOIN employees emp2
   ON emp1.employee_id = emp2.employee_id;
-```
-
----
-
-##  How to Run
-
-1. Make sure you have **MySQL** installed
-2. Open your MySQL client (MySQL Workbench, DBeaver, or terminal)
-3. Run the SQL file:
-```bash
-mysql -u your_username -p < JOINS_OPERATIONS.sql
-```
-Or paste the contents directly into your SQL editor and execute.
-
----
-
-##  Requirements
-
-- MySQL 5.7+ or compatible SQL database
-
----
-
-##  Concepts Practiced
-
-- Creating databases and tables
-- Inserting data
-- INNER JOIN
-- LEFT JOIN
-- RIGHT JOIN
-- SELF JOIN
